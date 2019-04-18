@@ -44,4 +44,6 @@ pip install -r requirements.txt
 
 Install the project in development mode by running `python setup.py develop`. If you use notebooks, this will ensure that you can access your modules.
 
-Edit this file to describe your actual project.
+## Project description
+
+This project is for the University of Virginia course PSYC 5270. Contributors to this project are Emily Bishop and Lesley Thomas. The project uses data from the CRCNS repository specifically dataset hc18. Our goal for this project is to reproduce the figures and results that the experimenters produced. 
