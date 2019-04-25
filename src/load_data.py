@@ -21,7 +21,7 @@ def make_arr_pos(pos_file):
 	arr = []
 	with open(fname, "rt") as fp:
 		for line in fp:
-			arr.append([line[0, 2], line[2, ]])
+			arr.append([line[0, 2], line[3, 6]])
 
 def flatten_data():
 	"""
@@ -36,10 +36,24 @@ def flatten_data():
 	data = {}
 	for train in glob.glob("data/trains/*"):
 	    train_name = path.basename(train)
-	    for cluster in glob.glob("data/trains/train/*"):
-			tetrode_name = path.basename(cluster)[0]
-			cluster_arr = []
-			for line in fp:
-		    data = make_array(cluster)
-			ndata = {"cluster": cluster_name, "data": data}
+	    for file in glob.glob("data/trains/train/*"):
+	    	if "pos" in file:
+	    		data = make_arr_pos(file)
+	    		file_type = path.basename(file)[0]
+	    		tetrode_num = "NA"
+	    	else:
+				file_type = path.basename(file)[0]
+				tetrode_num = path.basename(file)[1]
+				for line in fp:
+			    data = make_arr(file)
+			ndata = {"file": file_type, "data": data, "tetrode_num" : tetrode_num}
 			data[train_name] = ndata
+	df = pd.DataFrame(data)
+	return df
+
+
+
+
+
+
+
