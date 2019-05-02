@@ -4,11 +4,11 @@ import glob
 from os import path
 import os
 import numpy as np
-import pandas as pd
+# import pandas as pd
 
 # Note: Must change file name of all files to exclude date for make_dict() to work properly
 
-def change_name(fname):
+def change_name(file):
     """ 
     This function ensures that all files are in the correct format. If they are not, the function alters 
     the file name so that it is. 
@@ -17,31 +17,21 @@ def change_name(fname):
 
     Returns: Nothing, changes the file names
     """
-    if "2014" in fname:
-        path_name = fname[0:59]
-        file_name_o  = path.basename(fname)
+    date = file[69:72]
+    if date == "201":
+        path_name = file[0:59]
+        file_name_o  = path.basename(file)
         file_name_m = file_name_o[0:9] + file_name_o[18:]
-        os.rename(fname, path_name + file_name_m)
+        os.rename(file, path_name + file_name_m)
 
-# Changing all of the file names (use this once after you have downloaded all the files)
+# Changing all of the file names (use this once after you have downloaded all the files
 
-def change_all_names():
-    """
-    This function changes all of the file names in all of the trains
 
-    Use this function after you have successfully downloaded all of the data from all of the trains.
-    You must do this before using make_dict() but you only really need to use it once as it makes permanent 
-    changes.
+def change_name_train(train_name):
+    for file in glob.glob("/Users/Embo/comp-neurosci-crcns-hc18/data/trains/" + train_name + "/*"):
+        print("hi")
+        change_name(file)
 
-    Parameter: None
-
-    Return: Nothing, changes file names
-    """
-    for t in glob.glob("/Users/Embo/comp-neurosci-crcns-hc18/data/trains/*"):
-            for file in glob.glob(t + "/*"):
-                change_name(file)
-
-                
 def make_dict():
     """
     This function creates anested dictionary of all of the files in the dataset. Top layer of dictionary is of the indivdual
@@ -157,4 +147,6 @@ if testing_mode:
     df = pd.DataFrame(make_dict())
     print(df)
 
-change_all_names()
+
+
+change_name_train("train.292")
