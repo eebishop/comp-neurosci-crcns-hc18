@@ -6,6 +6,8 @@ import numpy as np
 import pandas as pd
 
 # Note: Must change file name of all files to exclude date for make_dict() to work properly
+# Having an issue with pandas
+# Add documentation for each function
 
 def make_dict():
     d = {} # First level dictionary
@@ -52,6 +54,7 @@ def load_clu_res(fname):
             data_arr.append(int(line)) 
     return data_arr
 
+
 # Testing
 
 testing_mode = False
@@ -80,9 +83,9 @@ if testing_mode:
 
     dict_test = make_dict()
     print(dict_test.keys())
+    print(dict_test["242"].keys())
+    print(dict_test["242"]["phases"])
 
 df = pd.DataFrame(make_dict())
-df.transpose()
 print(df)
-
 
