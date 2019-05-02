@@ -28,8 +28,15 @@ def change_name(file):
 
 
 def change_name_train(train_name):
+    """ 
+    This function ensures that all files are in the correct format in a specified train. 
+    If they are not, the function alters the file name so that it is. 
+
+    Parameter: The train name of the train with files to be checked/changed
+
+    Returns: Nothing, changes the file names
+    """
     for file in glob.glob("/Users/Embo/comp-neurosci-crcns-hc18/data/trains/" + train_name + "/*"):
-        print("hi")
         change_name(file)
 
 def make_dict():
@@ -93,7 +100,7 @@ def load_phases(fname):
             ret = []
             ret.append(line[0])
             ret.append(line[1])
-            ret.append(line[3][22,])
+            ret.append(line[3][22:])
             phases.append(ret)
     return phases
 
@@ -142,11 +149,5 @@ if testing_mode:
 
     dict_test = make_dict()
     print(dict_test.keys())
-    print(dict_test["242"].keys())
-    print(dict_test["242"]["phases"])
-    df = pd.DataFrame(make_dict())
-    print(df)
-
-
-
-change_name_train("train.292")
+    print(dict_test["261"].keys())
+    print(dict_test["261"]["phases"])

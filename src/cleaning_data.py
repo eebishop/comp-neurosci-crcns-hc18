@@ -1,7 +1,9 @@
 # tidy data
 
+import load_data
+
 # sampling rates of acquisition and video -- both found in the .xml files
-fs_spikes - 32552.083 # samples/second
+fs_spikes = 32552.083 # samples/second
 fs_video = 39.0625 # frames/second
 
 # to find the spike times and correct positions:
@@ -26,17 +28,21 @@ def make_spikes_all():
 
 def make_spikes_component(fname):
 	"""
-	This function changes raw res data into spike times. Does this for idnividual res files
+	This function changes raw res data into spike times. Does this for individual res files
 	"""
 	with open(fname, "rt") as fp:
-        for line in fp:
+		for line in fp:
 			line = float(line)
-		    line  = line * 1/(fs_spikes)
+			line  = line * 1/(fs_spikes)
 
+# Averaging across trains
 
-# above is spike times!!!
-
-# 2. multiply by fs_video and then cast as an integer using int()
-# 3. resulting int corresponds to a line number in the .pos files which will give you the x and y positions
+def make_phase_dict():
+	dict = load_data.make_dict()
+	phase_dict = {}
+	for train in dict.keys():
+		train = {}
+		for entry in dict[train]["phases"]:
+			train[entry[0]] = {"b/e": entry[1], "type": entry[2]}
 
 
