@@ -2,14 +2,56 @@
 
 import glob
 from os import path
+import os
 import numpy as np
 import pandas as pd
 
 # Note: Must change file name of all files to exclude date for make_dict() to work properly
-# Having an issue with pandas
-# Add documentation for each function
 
+def change_name(fname):
+    """ 
+    This function ensures that all files are in the correct format. If they are not, the function alters 
+    the file name so that it is. 
+
+    Parameter: The file name of the file to be checked/changed
+
+    Returns: Nothing, changes the file names
+    """
+    if "2014" in fname:
+        path_name = fname[0:59]
+        file_name_o  = path.basename(fname)
+        file_name_m = file_name_o[0:9] + file_name_o[18:]
+        os.rename(fname, path_name + file_name_m)
+
+# Changing all of the file names (use this once after you have downloaded all the files)
+
+def change_all_names():
+    """
+    This function changes all of the file names in all of the trains
+
+    Use this function after you have successfully downloaded all of the data from all of the trains.
+    You must do this before using make_dict() but you only really need to use it once as it makes permanent 
+    changes.
+
+    Parameter: None
+
+    Return: Nothing, changes file names
+    """
+    for t in glob.glob("/Users/Embo/comp-neurosci-crcns-hc18/data/trains/*"):
+            for file in glob.glob(t + "/*"):
+                change_name(file)
+
+                
 def make_dict():
+    """
+    This function creates anested dictionary of all of the files in the dataset. Top layer of dictionary is of the indivdual
+    trains. Second level dictionary is the all of the files within each train (e.g. clu, res, pos, etc.). This function 
+    calls other functions in this script in order to make the dictionary
+
+    Parameter: None
+
+    Return: The nested dictionary
+    """
     d = {} # First level dictionary
     for t in glob.glob("/Users/Embo/comp-neurosci-crcns-hc18/data/trains/*"):
         train_name = t[-3:]
@@ -25,6 +67,15 @@ def make_dict():
     return d
 
 def load_pos(fname):
+    """
+    This function opens a specific pos file and reads the data into an array format. It will
+    be a nested list where each item in the top layer list is an array of two positions. For example:
+    [[3, 4], [1,2]]
+
+    Parameter: the path of the file to open and read
+
+    Return: Nested list with position data
+    """
     positions = []
     with open(fname, "rt") as fp:
         for line in fp:
@@ -35,6 +86,16 @@ def load_pos(fname):
 
 
 def load_phases(fname):
+    """
+    This function opens a specific cat.evt file and reads the data into an array format. It will
+    be a nested list where each item in the top layer list is an array of three items: the time value,
+    whether it denotes a beginning or end, and the phase it represents. For example:
+    [[0, 'beginnning', 'SleepBaseline']]
+
+    Parameter: the path of the file to open and read
+
+    Return: Nested list with phase data
+    """
     phases = []
     with open(fname, "rt") as fp:
         for line in fp:
@@ -42,12 +103,20 @@ def load_phases(fname):
             ret = []
             ret.append(line[0])
             ret.append(line[1])
-            ret.append(line[3][22:])
+            ret.append(line[3][22,])
             phases.append(ret)
     return phases
 
 
 def load_clu_res(fname):
+    """
+    This function opens a specific clu or res file and reads the data into an array format. The first value 
+    in the array represents SOMETHING IMPORTANT 
+
+    Parameter: the path of the file to open and read
+
+    Return: List with data
+    """
     data_arr = []
     with open(fname, "rt") as fp:
         for line in fp:
@@ -85,7 +154,7 @@ if testing_mode:
     print(dict_test.keys())
     print(dict_test["242"].keys())
     print(dict_test["242"]["phases"])
+    df = pd.DataFrame(make_dict())
+    print(df)
 
-df = pd.DataFrame(make_dict())
-print(df)
-
+change_all_names()
