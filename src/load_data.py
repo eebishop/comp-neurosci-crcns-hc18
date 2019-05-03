@@ -52,18 +52,17 @@ def make_dict():
     t = "/Users/Embo/comp-neurosci-crcns-hc18/data/train.242"
     train = {}
     for clufile in glob.glob(t + "/*clu*"):
-        print(clufile)
         tetrode_num = int(clufile.split(".")[-1])
         train[tetrode_num] = load_spikes(clufile)
     return train
 
 
 def load_spikes(clufile):
-    print("hi")
     sampling_rate = 32552.083 
     resfile = clufile.replace("clu", "res")
     cludata = np.loadtxt(clufile)[1:]
     resdata = (np.loadtxt(resfile) / sampling_rate)
     # data_dict = {"cludata": cludata, "resdata": resdata}
     df = pd.DataFrame({"cluster": cludata, "time (ms)": resdata})
+    df = df_idx = df.set_index(["cluster"])
     return df
