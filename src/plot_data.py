@@ -1,4 +1,4 @@
-import load_data
+from src import load_data
 import numpy as np
 import matplotlib.pyplot as plt
 import math
@@ -44,8 +44,7 @@ def plot_tetrode_combined(clufile):
 	col_counter = 0
 
 	for i in clu_list: # plotting each cluster in same figure
-	    counter += 1
-	    plot = test
+	    plot = load_data.load_spikes(clufile)
 	    plot = plot.loc[i]
 	    plot = plot.values
 	    p = []
@@ -53,36 +52,6 @@ def plot_tetrode_combined(clufile):
 	        for j in k:
 	            p.append(j)
 	    axes[row_counter][col_counter].hist(p, bins = 250)
-	    axes[row_counter][col_counter].set_title("Cluster " + str(i))
-	    if col_counter >= col - 1:
-	        col_counter = 0
-	        row_counter += 1
-	    else:
-	        col_counter += 1
-
-
-def plot_tetrode_all(clufile):
-	"""
-	This function creates a figure with one histogram with each cluster plotted on the same graph.
-
-	Parameter: a clu file
-
-	Return: Nothing, plots a histogram
-	"""
-	clu_list = prep_data(clufile)
-	fig, axes = plt.subplots(nrows = 1, ncols = 1, figsize = (10,6), sharex = True)
-	tetrode_num = clufile.split(".")[-1]
-	fig.suptitle("Tetrode" + str(tetrode_num))
-
-	for i in clu_list: # plotting each cluster in same figure
-	    plot = test
-	    plot = plot.loc[i]
-	    plot = plot.values
-	    p = []
-	    for k in plot:
-	        for j in k:
-	            p.append(j)
-	    plt.hist(p, bins = 250)
 	    axes[row_counter][col_counter].set_title("Cluster " + str(i))
 	    if col_counter >= col - 1:
 	        col_counter = 0
