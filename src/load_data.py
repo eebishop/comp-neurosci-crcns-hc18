@@ -6,8 +6,6 @@ import os
 import numpy as np
 import pandas as pd
 
-# Note: Must change file name of all files to exclude date for make_dict() to work properly
-
 def change_name(file):
     """ 
     This function ensures that all files are in the correct format. If they are not, the function alters 
@@ -39,6 +37,7 @@ def change_name_train(train_name):
     for file in glob.glob("/Users/Embo/comp-neurosci-crcns-hc18/data/trains/" + train_name + "/*"):
         change_name(file)
 
+
 def make_dict():
     """
     This function creates a nested dictionary of all of the files in the dataset. Top layer of dictionary is of the indivdual
@@ -58,6 +57,14 @@ def make_dict():
 
 
 def load_spikes(clufile):
+    """
+    This function loads the spike times from a given clu file. It references the res file with same tetrode num 
+    to get both clu data and spike time data. It creates a data frame using these two set of data
+
+    Parameter: a clu file
+
+    Return: a data frame with clu and res data from a specific tetrode
+    """
     sampling_rate = 32552.083 
     resfile = clufile.replace("clu", "res")
     cludata = np.loadtxt(clufile)[1:]
