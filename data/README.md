@@ -2,7 +2,7 @@ To retrieve data set go to CRCNS website and find the hc-18 data set. From there
 
 		1. Download the Train-242 tar.gz file 
 		2. Move relevant files into the data folder
-			a. These files are: .clu#, .pos#, and .xml
+			a. These files are: .clu#, .res#, and .xml
 		3. Change the file names to exclude the date. For example:
 			Before: Train-242-20140617.clu.12
 			After: Train-242.clu.12
